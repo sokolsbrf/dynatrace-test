@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.dynatrace.instrumentation'
+
+dynatrace {
+    pluginEnabled true
+
+    configurations {
+        demoConfig {
+            enabled true
+
+            autoStart {
+                applicationId '(впишите)'
+                beaconUrl '(впишите)'
+            }
+
+            userActions.enabled true
+            webRequests.enabled true
+            lifecycle {
+                enabled true
+
+                sensors {
+                    activity true
+                    application true
+                    fragment false
+                }
+            }
+
+            crashReporting true
+        }
+    }
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "ru.dimasokol.dynatrace"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    // При подключении врукопашную всё работает
+    //implementation 'com.dynatrace.agent:agent-android:8.185.1.1004'
+}
